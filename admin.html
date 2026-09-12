@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard | CS Dept.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body>
+    <div class="admin-body">
+        <!-- SIDEBAR (same as before) -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <img src="assets/images/logo-placeholder.svg" alt="Logo" width="36" height="36" />
+                <span>CS Admin</span>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="active" data-section="dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="#" data-section="students"><i class="fas fa-users"></i> Students</a></li>
+                    <li><a href="#" data-section="add-student"><i class="fas fa-user-plus"></i> Add Student</a></li>
+                    <li><a href="#" data-section="results"><i class="fas fa-file-alt"></i> Results</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="admin-main">
+            <!-- Header -->
+            <div class="admin-header">
+                <div style="display:flex; align-items:center; gap:16px;">
+                    <button id="sidebar-toggle" style="background:none;border:none;font-size:1.5rem;color:var(--text-secondary);cursor:pointer;display:none;">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 id="page-title">Dashboard</h1>
+                </div>
+                <div class="admin-actions">
+                    <span style="color:var(--text-secondary);font-size:0.9rem;">
+                        <i class="fas fa-user-circle"></i> Admin
+                    </span>
+                </div>
+            </div>
+
+            <!-- DYNAMIC CONTENT -->
+            <div id="admin-content">
+                <!-- DASHBOARD -->
+                <div id="section-dashboard">
+                    <div class="dash-cards" id="dash-cards"></div>
+                    <div style="background:#fff;border-radius:var(--admin-radius);padding:20px;border:1px solid var(--border-color);">
+                        <h3 style="margin-bottom:12px;">Recent Students</h3>
+                        <div id="recent-students" style="font-size:0.95rem;color:var(--text-secondary);">Loading...</div>
+                    </div>
+                </div>
+
+                <!-- STUDENTS LIST -->
+                <div id="section-students" style="display:none;">
+                    <div style="display:flex;flex-wrap:wrap;gap:16px;margin-bottom:20px;align-items:center;">
+                        <input type="text" id="student-search" placeholder="Search by name or UID..." style="flex:1;min-width:180px;padding:10px 16px;border:1px solid var(--border-color);border-radius:var(--radius-sm);" />
+                        <select id="student-level-filter" style="padding:10px 16px;border:1px solid var(--border-color);border-radius:var(--radius-sm);">
+                            <option value="">All Levels</option>
+                            <option value="ND I">ND I</option>
+                            <option value="ND II">ND II</option>
+                            <option value="HND I">HND I</option>
+                            <option value="HND II">HND II</option>
+                        </select>
+                        <button class="btn-primary btn-sm" id="refresh-students"><i class="fas fa-sync"></i> Refresh</button>
+                    </div>
+                    <div class="admin-table-wrap">
+                        <table class="admin-table" id="students-table">
+                            <thead>
+                                <tr>
+                                    <th>UID</th>
+                                    <th>Name</th>
+                                    <th>Level</th>
+                                    <th>Session</th>
+                                    <th>Matric</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="students-tbody">
+                                <tr><td colspan="6" style="text-align:center;padding:30px;">Loading students...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ADD STUDENT - CENTERED -->
+                <div id="section-add-student" style="display:none;">
+                    <div style="display:flex;justify-content:center;padding:20px 0;">
+                        <div style="background:#fff;border-radius:var(--admin-radius);border:1px solid var(--border-color);padding:36px 32px;max-width:560px;width:100%;box-shadow:var(--shadow-md);">
+                            <h2 style="margin-bottom:8px;font-weight:600;">Add New Student</h2>
+                            <p style="color:var(--text-secondary);margin-bottom:24px;font-size:0.95rem;">Fill in the details to create a new student record</p>
+                            <form id="add-student-form">
+                                <div class="form-group">
+                                    <label><i class="fas fa-user"></i> Full Name</label>
+                                    <input type="text" id="add-fullname" placeholder="John Doe" required />
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fas fa-id-card"></i> Matric Number</label>
+                                    <input type="text" id="add-matric" placeholder="M2026/001" />
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fas fa-layer-group"></i> Level</label>
+                                    <select id="add-level" required>
+                                        <option value="ND I">ND I</option>
+                                        <option value="ND II">ND II</option>
+                                        <option value="HND I">HND I</option>
+                                        <option value="HND II">HND II</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label><i class="fas fa-calendar-alt"></i> Academic Session</label>
+                                    <input type="text" id="add-session" placeholder="2025/2026" value="2025/2026" required />
+                                </div>
+                                <button type="submit" class="btn-primary btn-block" id="add-student-btn">
+                                    <i class="fas fa-user-plus"></i> Generate UID &amp; Save
+                                </button>
+                            </form>
+                            <div id="add-student-result" style="margin-top:20px;display:none;background:var(--bg-light);padding:16px;border-radius:var(--radius-sm);border-left:4px solid var(--primary);">
+                                <strong>✅ Student Created Successfully</strong><br />
+                                <span id="new-uid-display" style="font-weight:600;font-size:1.2rem;color:var(--primary);"></span>
+                                <button id="copy-uid-btn" class="btn-sm" style="margin-left:12px;background:transparent;border:1px solid var(--border-color);border-radius:6px;padding:4px 12px;cursor:pointer;">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RESULTS ENTRY -->
+                <div id="section-results" style="display:none;">
+                    <div style="background:#fff;border-radius:var(--admin-radius);border:1px solid var(--border-color);padding:28px;">
+                        <h2 style="margin-bottom:16px;">Result Entry</h2>
+                        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
+                            <input type="text" id="result-student-uid" placeholder="Enter Student UID" style="flex:1;min-width:200px;padding:10px 16px;border:1px solid var(--border-color);border-radius:var(--radius-sm);" />
+                            <button class="btn-primary btn-sm" id="result-find-student"><i class="fas fa-search"></i> Load Student</button>
+                        </div>
+                        <div id="result-student-info" style="background:var(--bg-light);padding:12px 16px;border-radius:var(--radius-sm);margin-bottom:20px;display:none;">
+                            <span id="result-student-name" style="font-weight:600;"></span> &bull; 
+                            <span id="result-student-uid-display"></span> &bull; 
+                            <span id="result-student-level"></span>
+                        </div>
+
+                        <div style="display:flex;flex-wrap:wrap;gap:16px;margin-bottom:20px;">
+                            <div style="flex:1;min-width:150px;">
+                                <label style="font-weight:500;font-size:0.85rem;">Academic Year</label>
+                                <input type="number" id="result-year" value="2026" style="width:100%;padding:8px 12px;border:1px solid var(--border-color);border-radius:var(--radius-sm);" />
+                            </div>
+                            <div style="flex:1;min-width:150px;">
+                                <label style="font-weight:500;font-size:0.85rem;">Academic Session</label>
+                                <input type="text" id="result-session" value="2025/2026" style="width:100%;padding:8px 12px;border:1px solid var(--border-color);border-radius:var(--radius-sm);" />
+                            </div>
+                            <div style="flex:1;min-width:150px;">
+                                <label style="font-weight:500;font-size:0.85rem;">Level</label>
+                                <select id="result-level" style="width:100%;padding:8px 12px;border:1px solid var(--border-color);border-radius:var(--radius-sm);">
+                                    <option value="ND I">ND I</option>
+                                    <option value="ND II">ND II</option>
+                                    <option value="HND I">HND I</option>
+                                    <option value="HND II">HND II</option>
+                                </select>
+                            </div>
+                            <div style="flex:1;min-width:150px;">
+                                <label style="font-weight:500;font-size:0.85rem;">Semester</label>
+                                <select id="result-semester" style="width:100%;padding:8px 12px;border:1px solid var(--border-color);border-radius:var(--radius-sm);">
+                                    <option value="First Semester">First Semester</option>
+                                    <option value="Second Semester">Second Semester</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom:16px;">
+                            <h4 style="margin-bottom:8px;">Courses</h4>
+                            <div id="course-rows"></div>
+                            <button class="btn-outline btn-sm" id="add-course-row"><i class="fas fa-plus"></i> Add Course</button>
+                        </div>
+
+                        <button class="btn-primary" id="save-result-btn"><i class="fas fa-save"></i> Save Results</button>
+                        <div id="result-feedback" style="margin-top:12px;"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="confirm-modal">
+        <div class="modal-box">
+            <h2>Confirm Delete</h2>
+            <p id="modal-message">Are you sure you want to delete this item?</p>
+            <div class="modal-actions">
+                <button class="btn-outline btn-sm" id="modal-cancel">Cancel</button>
+                <button class="btn-primary btn-sm" id="modal-confirm" style="background:#b91c1c;">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/mock-supabase.js"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/results.js"></script>
+</body>
+</html>

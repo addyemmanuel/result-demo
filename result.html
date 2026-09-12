@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Result</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/print.css" />
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="bg-blob blob1"></div>
+        <div class="bg-blob blob2"></div>
+        <div class="bg-blob blob3"></div>
+    </div>
+
+    <!-- Simple Header (no nav) -->
+    <header class="main-header no-print">
+        <div class="container header-container">
+            <div class="logo">
+                <img src="assets/images/logo-placeholder.svg" alt="Logo" width="40" height="40" />
+                <span class="dept-name">CS Dept.</span>
+            </div>
+            <div class="header-actions">
+                <a href="index.html" class="btn-outline btn-sm"><i class="fas fa-arrow-left"></i> Back</a>
+                <button class="btn-primary btn-sm" id="print-result-btn"><i class="fas fa-print"></i> Print</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Result Container -->
+    <section class="result-section">
+        <div class="container">
+            <div id="result-container">
+                <p><i class="fas fa-spinner fa-spin"></i> Loading result...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (optional, hidden when printing) -->
+    <footer class="main-footer no-print">
+        <div class="container">
+            <div class="footer-copy">
+                &copy; 2026 CS Department. All rights reserved. | Demo Prototype
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/mock-supabase.js"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/result-display.js"></script>
+</body>
+</html>

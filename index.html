@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Computer Science Result Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="bg-blob blob1"></div>
+        <div class="bg-blob blob2"></div>
+        <div class="bg-blob blob3"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo">
+                <img src="assets/images/logo-placeholder.svg" alt="University Logo" width="40" height="40" />
+                <span class="dept-name">CS Dept.</span>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="admin-login.html" class="btn-outline btn-sm"><i class="fas fa-lock"></i> Admin</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Computer Science<br />Student Result Portal</h1>
+                <p class="subtitle">Securely access your academic results using your unique student UID.</p>
+                <div class="uid-form" id="uid-form">
+                    <div class="input-group">
+                        <input type="text" id="uid-input" placeholder="Enter Student UID" autocomplete="off" />
+                        <button id="check-result-btn" class="btn-primary"><i class="fas fa-search"></i> Check Result</button>
+                    </div>
+                    <div id="uid-error" class="error-message"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Info Cards -->
+    <section id="about" class="info-cards">
+        <div class="container">
+            <div class="card-grid">
+                <div class="info-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Secure</h3>
+                    <p>Your academic records are securely stored and protected.</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Fast</h3>
+                    <p>Access your result instantly using your unique UID.</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-user-check"></i>
+                    <h3>Simple</h3>
+                    <p>No account required for students – just your UID.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h4>Computer Science Department</h4>
+                    <p>University of Technology</p>
+                    <p class="academic-session">Academic Session: 2025/2026</p>
+                </div>
+                <div class="footer-copy">
+                    &copy; 2026 CS Department. All rights reserved. | Demo Prototype
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/mock-supabase.js"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/student.js"></script>
+</body>
+</html>
