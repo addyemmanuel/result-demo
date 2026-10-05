@@ -1,5 +1,5 @@
 # Local config with secrets – NEVER commit
-js/config.js
+
 .env
 .env.local
 
