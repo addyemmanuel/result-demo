@@ -1,25 +1,22 @@
 // =============================================
-// AUTH.JS – Authentication Logic (Admin)
+// AUTH.JS – Login, session, and role detection
 // =============================================
 
-document.addEventListener('DOMContentLoaded', () => {
+window.currentAdmin = null; // { id, email, full_name, role }
+
+document.addEventListener('DOMContentLoaded', async () => {
     const supabase = window.appSupabase;
     if (!supabase) {
-        console.error('❌ Auth: appSupabase not available');
-        const errorEl = document.getElementById('login-error');
-        if (errorEl) {
-            errorEl.textContent = 'System unavailable. Please try again later.';
-            errorEl.style.display = 'block';
-        }
+        console.error('❌ appSupabase not initialised');
         return;
     }
 
-    // ---------- Login ----------
+    // ---------- LOGIN ----------
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const email = document.getElementById('email').value;
+            const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
             const errorEl = document.getElementById('login-error');
             const btn = document.getElementById('login-btn');
@@ -29,14 +26,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-                if (error) {
-                    errorEl.textContent = error.message;
-                    errorEl.style.display = 'block';
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
-                    return;
+                if (error) throw error;
+
+                // Fetch role from admin_users
+                const { data: adminRow, error: roleErr } = await supabase
+                    .from('admin_users')
+                    .select('role, is_active, full_name')
+                    .eq('id', data.user.id)
+                    .single();
+
+                if (roleErr || !adminRow || !adminRow.is_active) {
+                    await supabase.auth.signOut();
+                    throw new Error('Your account is not authorised or is inactive.');
                 }
-                // Redirect to admin dashboard
+
                 window.location.href = 'admin.html';
             } catch (err) {
                 errorEl.textContent = err.message || 'Login failed';
@@ -47,34 +50,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ---------- Session check for admin pages ----------
+    // ---------- SESSION GUARD (admin.html) ----------
     if (window.location.pathname.includes('admin.html')) {
-        if (supabase.auth && supabase.auth.getSession) {
-            supabase.auth.getSession().then(({ data }) => {
-                if (!data.session) {
-                    window.location.href = 'admin-login.html';
-                }
-            }).catch(() => {
-                // In mock mode, we can ignore or redirect
-                if (USE_MOCK) {
-                    console.log('🔧 Mock mode: session check skipped');
-                } else {
-                    window.location.href = 'admin-login.html';
-                }
-            });
-        } else {
-            console.warn('⚠️ auth.getSession not available');
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) {
+            window.location.href = 'admin-login.html';
+            return;
         }
+
+        // Fetch role
+        const { data: adminRow, error: roleErr } = await supabase
+            .from('admin_users')
+            .select('role, is_active, full_name, email')
+            .eq('id', session.user.id)
+            .single();
+
+        if (roleErr || !adminRow || !adminRow.is_active) {
+            await supabase.auth.signOut();
+            window.location.href = 'admin-login.html';
+            return;
+        }
+
+        // Publish globally for admin.js to consume
+        window.currentAdmin = {
+            id: session.user.id,
+            email: adminRow.email,
+            full_name: adminRow.full_name,
+            role: adminRow.role
+        };
+        console.log('👤 Role:', adminRow.role);
+
+        // Dispatch event so admin.js can react
+        window.dispatchEvent(new CustomEvent('adminReady', { detail: window.currentAdmin }));
     }
 
-    // ---------- Logout ----------
-    const logoutBtn = document.getElementById('logout-btn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', async () => {
-            if (supabase.auth && supabase.auth.signOut) {
-                await supabase.auth.signOut();
-            }
-            window.location.href = 'index.html';
-        });
-    }
+    // ---------- LOGOUT ----------
+    document.getElementById('logout-btn')?.addEventListener('click', async (e) => {
+        e.preventDefault();
+        await supabase.auth.signOut();
+        window.location.href = 'index.html';
+    });
 });

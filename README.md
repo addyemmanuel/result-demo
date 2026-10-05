@@ -1,15 +1,15 @@
 # CS Department Result Portal
 
-## To Setup Database
+## Setup Steps
 
-1. Create a Supabase project.
-2. Execute `supabase/schema.sql` in the SQL editor.
-3. (Optional) Execute `supabase/seed.sql` for sample data.
-4. Update `js/supabase.js` with your Supabase URL and public anon key.
-5. Create an admin user via Supabase Auth (email/password).
-6. Open `index.html` in a browser.
-7. To switch to real Supabase, edit `js/supabase.js` file and set USE_MOCK = false, then provide supabase credentials
-## Features
+### 1. Supabase
+- Create a project
+- Run `supabase/schema.sql` in the SQL Editor
+- Create the super-admin auth user: Auth → Users → Add User
+- Copy their UUID, then run the seed INSERT at the bottom of `schema.sql`
+- Deploy the Edge Function:
+  ```bash
+  supabase functions deploy create-admin-user
 
 - Student UID lookup with case-insensitive.
 - Historical result navigation by year or academic session.

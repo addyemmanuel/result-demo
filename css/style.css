@@ -337,6 +337,218 @@ body {
     margin-top: 24px;
 }
 
+/* ============================================
+   ABOUT / CREDITS SECTION
+   ============================================ */
+.about-section {
+    padding: 80px 0 60px;
+    background: linear-gradient(180deg, transparent 0%, rgba(244, 247, 252, 0.6) 100%);
+}
+
+.about-header {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 56px;
+}
+
+.about-eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--primary);
+    background: rgba(42, 75, 124, 0.08);
+    padding: 6px 16px;
+    border-radius: 30px;
+    margin-bottom: 16px;
+}
+
+.about-header h2 {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--primary-dark);
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+}
+
+.about-lead {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.about-lead strong {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+/* ---------- Grid of Cards ---------- */
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    max-width: 900px;
+    margin: 0 auto 40px;
+}
+
+.about-card {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 32px 28px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.about-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--primary) 0%, var(--primary-light) 100%);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.about-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(42, 75, 124, 0.2);
+}
+
+.about-card:hover::before {
+    opacity: 1;
+}
+
+.about-card-icon {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    box-shadow: 0 6px 16px rgba(42, 75, 124, 0.2);
+}
+
+.about-card-body {
+    flex: 1;
+}
+
+.about-role {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.about-card-body h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+}
+
+.about-card-body p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ---------- Powered-by Badge ---------- */
+.about-powered {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 30px;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    box-shadow: var(--shadow-sm);
+    margin: 0 auto;
+    /* Center the badge */
+    display: flex;
+    width: fit-content;
+}
+
+.about-powered i {
+    color: var(--primary);
+    font-size: 1rem;
+}
+
+.about-powered strong {
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+    .about-section {
+        padding: 60px 0 40px;
+    }
+
+    .about-header {
+        margin-bottom: 40px;
+    }
+
+    .about-card {
+        padding: 24px 22px;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .about-card-icon {
+        width: 46px;
+        height: 46px;
+        font-size: 1.2rem;
+    }
+
+    .about-card-body h3 {
+        font-size: 1.1rem;
+    }
+
+    .about-powered {
+        font-size: 0.85rem;
+        padding: 10px 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-lead {
+        font-size: 0.98rem;
+    }
+
+    .about-card {
+        padding: 20px 18px;
+    }
+
+    .about-powered {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
     .header-container { flex-wrap: wrap; gap: 12px; }

@@ -21,7 +21,7 @@
         <div class="container header-container">
             <div class="logo">
                 <img src="assets/images/logo-placeholder.svg" alt="University Logo" width="40" height="40" />
-                <span class="dept-name">CS Dept.</span>
+                <span class="dept-name">Result Checker</span>
             </div>
             <nav class="main-nav">
                 <ul>
@@ -52,40 +52,98 @@
         </div>
     </section>
 
-    <!-- Info Cards -->
-    <section id="about" class="info-cards">
-        <div class="container">
-            <div class="card-grid">
-                <div class="info-card">
-                    <i class="fas fa-shield-alt"></i>
-                    <h3>Secure</h3>
-                    <p>Your academic records are securely stored and protected.</p>
+   <!-- Info Cards -->
+<section class="info-cards">
+    <div class="container">
+        <div class="card-grid">
+            <div class="info-card">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Secure</h3>
+                <p>Your academic records are securely stored and protected.</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-bolt"></i>
+                <h3>Fast</h3>
+                <p>Access your result instantly using your unique UID.</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-user-check"></i>
+                <h3>Simple</h3>
+                <p>No account required for students – just your UID.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About / Credits Section -->
+<section id="about" class="about-section">
+    <div class="container">
+        <div class="about-header">
+            <span class="about-eyebrow">About This Project</span>
+            <h2>A Class Project for the Computer Science Department</h2>
+            <p class="about-lead">
+                This result portal was designed and built as a class project to
+                demonstrate a modern, secure, and student-friendly way of
+                accessing academic results — powered by real-world technologies
+                including <strong>HTML, CSS, JavaScript, and Supabase</strong>.
+            </p>
+        </div>
+
+        <div class="about-grid">
+            <!-- Course Rep Card -->
+            <div class="about-card">
+                <div class="about-card-icon">
+                    <i class="fas fa-user-graduate"></i>
                 </div>
-                <div class="info-card">
-                    <i class="fas fa-bolt"></i>
-                    <h3>Fast</h3>
-                    <p>Access your result instantly using your unique UID.</p>
+                <div class="about-card-body">
+                    <span class="about-role">Course Representative</span>
+                    <h3>Christian Akpan</h3>
+                    <p>
+                        Spearheaded the project concept, coordinated the team,
+                        and ensured the portal reflected the needs of students
+                        across all levels.
+                    </p>
                 </div>
-                <div class="info-card">
-                    <i class="fas fa-user-check"></i>
-                    <h3>Simple</h3>
-                    <p>No account required for students – just your UID.</p>
+            </div>
+
+            <!-- Supervisor Card -->
+            <div class="about-card">
+                <div class="about-card-icon">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <div class="about-card-body">
+                    <span class="about-role">Project Supervisor</span>
+                    <h3>Dr. Fidelis Godwin</h3>
+                    <p>
+                        Provided academic guidance, technical direction, and
+                        the vision that powered this build from concept to
+                        completion.
+                    </p>
                 </div>
             </div>
         </div>
-    </section>
+
+        <!-- Powered-by badge -->
+        <div class="about-powered">
+            <i class="fas fa-bolt"></i>
+            <span>Powered by <strong>Dr. Fidelis Godwin</strong></span>
+        </div>
+    </div>
+</section>
 
     <!-- Footer -->
     <footer class="main-footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <h4>Computer Science Department</h4>
-                    <p>University of Technology</p>
-                    <p class="academic-session">Academic Session: 2025/2026</p>
+                    <h4>Computer Science Department
+                        <br>SWD class of 2025/2026
+                    </h4>
+                    <p>Temple Gate Polytechnic</p>
+                    <p class="academic-session">Course Rep: Christian Akpan</p>
                 </div>
                 <div class="footer-copy">
-                    &copy; 2026 CS Department. All rights reserved. | Demo Prototype
+                    &copy; 2026 CS Department. All rights reserved. | Powered By Dr. Fidelis Godwin
                 </div>
             </div>
         </div>
@@ -93,7 +151,7 @@
 
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/mock-supabase.js"></script>
+    <script src="js/config.js"></script>
     <script src="js/supabase.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/student.js"></script>

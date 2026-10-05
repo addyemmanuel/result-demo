@@ -5,14 +5,14 @@
 document.addEventListener('DOMContentLoaded', () => {
     const supabase = window.appSupabase;
     if (!supabase) {
-        alert('Supabase client not available.');
+        console.error('❌ appSupabase not available');
         return;
     }
 
     let selectedStudentId = null;
     const courseRowsContainer = document.getElementById('course-rows');
 
-    // ---------- Find Student ----------
+    // ---------- FIND STUDENT ----------
     document.getElementById('result-find-student')?.addEventListener('click', async () => {
         const uid = document.getElementById('result-student-uid').value.trim();
         if (!uid) return alert('Please enter a UID.');
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('result-level').value = data.level;
     });
 
-    // ---------- Add Course Row ----------
+    // ---------- ADD COURSE ROW ----------
     function addCourseRow(courseCode = '', title = '', units = '', score = '') {
         const row = document.createElement('div');
         row.className = 'course-row';
@@ -47,29 +47,36 @@ document.addEventListener('DOMContentLoaded', () => {
         row.innerHTML = `
             <div style="flex:1;min-width:100px;">
                 <label style="font-size:0.75rem;font-weight:500;">Code</label>
-                <input type="text" class="course-code" value="${courseCode}" placeholder="CSC301" style="width:100%;padding:6px 10px;border:1px solid var(--border-color);border-radius:6px;" />
+                <input type="text" class="course-code" value="${courseCode}" placeholder="CSC301"
+                    style="width:100%;padding:6px 10px;border:1px solid var(--border-color);border-radius:6px;" />
             </div>
             <div style="flex:2;min-width:140px;">
                 <label style="font-size:0.75rem;font-weight:500;">Title</label>
-                <input type="text" class="course-title" value="${title}" placeholder="Data Structures" style="width:100%;padding:6px 10px;border:1px solid var(--border-color);border-radius:6px;" />
+                <input type="text" class="course-title" value="${title}" placeholder="Data Structures"
+                    style="width:100%;padding:6px 10px;border:1px solid var(--border-color);border-radius:6px;" />
             </div>
             <div style="flex:0.5;min-width:60px;">
                 <label style="font-size:0.75rem;font-weight:500;">Units</label>
-                <input type="number" class="course-units" value="${units}" placeholder="3" style="width:100%;padding:6px 10px;border:1px solid var(--border-color);border-radius:6px;" />
+                <input type="number" class="course-units" value="${units}" placeholder="3"
+                    style="width:100%;padding:6px 10px;border:1px solid var(--border-color);border-radius:6px;" />
             </div>
             <div style="flex:0.5;min-width:60px;">
                 <label style="font-size:0.75rem;font-weight:500;">Score</label>
-                <input type="number" class="course-score" value="${score}" placeholder="78" style="width:100%;padding:6px 10px;border:1px solid var(--border-color);border-radius:6px;" />
+                <input type="number" class="course-score" value="${score}" placeholder="78"
+                    style="width:100%;padding:6px 10px;border:1px solid var(--border-color);border-radius:6px;" />
             </div>
             <div style="flex:0.5;min-width:60px;">
                 <label style="font-size:0.75rem;font-weight:500;">Grade</label>
-                <input type="text" class="course-grade" readonly placeholder="A" style="width:100%;padding:6px 10px;background:#f0f0f0;border:1px solid var(--border-color);border-radius:6px;" />
+                <input type="text" class="course-grade" readonly placeholder="A"
+                    style="width:100%;padding:6px 10px;background:#f0f0f0;border:1px solid var(--border-color);border-radius:6px;" />
             </div>
             <div style="flex:0.5;min-width:60px;">
                 <label style="font-size:0.75rem;font-weight:500;">GP</label>
-                <input type="text" class="course-gp" readonly placeholder="4.0" style="width:100%;padding:6px 10px;background:#f0f0f0;border:1px solid var(--border-color);border-radius:6px;" />
+                <input type="text" class="course-gp" readonly placeholder="4.0"
+                    style="width:100%;padding:6px 10px;background:#f0f0f0;border:1px solid var(--border-color);border-radius:6px;" />
             </div>
-            <button class="remove-course" style="background:#fee;border:none;border-radius:6px;padding:6px 10px;color:#b91c1c;cursor:pointer;font-size:0.8rem;margin-bottom:2px;">
+            <button class="remove-course" type="button"
+                style="background:#fee;border:none;border-radius:6px;padding:6px 10px;color:#b91c1c;cursor:pointer;font-size:0.8rem;margin-bottom:2px;">
                 <i class="fas fa-times"></i>
             </button>
         `;
@@ -78,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const gradeInput = row.querySelector('.course-grade');
         const gpInput = row.querySelector('.course-gp');
 
-        scoreInput.addEventListener('input', function() {
+        scoreInput.addEventListener('input', function () {
             const score = parseFloat(this.value);
             if (!isNaN(score) && score >= 0 && score <= 100) {
                 const result = calculateGrade(score);
@@ -90,35 +97,42 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        row.querySelector('.remove-course').addEventListener('click', function() {
+        row.querySelector('.remove-course').addEventListener('click', function () {
             row.remove();
         });
 
         courseRowsContainer.appendChild(row);
-        if (score) {
-            scoreInput.dispatchEvent(new Event('input'));
-        }
+
+        if (score) scoreInput.dispatchEvent(new Event('input'));
     }
 
     // Initial row
     addCourseRow();
 
-    // ---------- Add Course Button (FIXED) ----------
+    // ---------- ADD COURSE BUTTON ----------
     document.getElementById('add-course-row')?.addEventListener('click', () => {
         addCourseRow();
     });
 
-    // ---------- Save Result ----------
+    // ---------- SAVE RESULT ----------
     document.getElementById('save-result-btn')?.addEventListener('click', async () => {
         const feedback = document.getElementById('result-feedback');
-        feedback.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+        feedback.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
         feedback.style.color = 'var(--text-secondary)';
 
         if (!selectedStudentId) {
             feedback.innerHTML = '❌ Please load a student first.';
+            feedback.style.color = '#b91c1c';
             return;
         }
 
+        if (!window.currentAdminId) {
+            feedback.innerHTML = '❌ Admin session not ready. Please refresh.';
+            feedback.style.color = '#b91c1c';
+            return;
+        }
+
+        // Gather course data
         const rows = document.querySelectorAll('.course-row');
         const courses = [];
         let valid = true;
@@ -139,6 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!valid || courses.length === 0) {
             feedback.innerHTML = '❌ Please fill in all course fields correctly.';
+            feedback.style.color = '#b91c1c';
             return;
         }
 
@@ -149,10 +164,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!session || !year || !level) {
             feedback.innerHTML = '❌ Please fill in academic year, session, and level.';
+            feedback.style.color = '#b91c1c';
             return;
         }
 
         try {
+            // 1. Create result session with status 'Pending'
             const { data: sessionData, error: sessionError } = await supabase
                 .from('result_sessions')
                 .insert([{
@@ -160,13 +177,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     academic_year: year,
                     academic_session: session,
                     level: level,
-                    status: 'Draft',
+                    status: 'Pending',                      // Awaiting verification
+                    entered_by: window.currentAdminId,      // Track who submitted
+                    submitted_at: new Date().toISOString(),
                     published_at: null
                 }])
                 .select();
+
             if (sessionError) throw sessionError;
             const sessionId = sessionData[0].id;
 
+            // 2. Insert courses
             const resultsToInsert = courses.map(c => ({
                 result_session_id: sessionId,
                 semester: semester,
@@ -183,12 +204,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 .insert(resultsToInsert);
             if (resultsError) throw resultsError;
 
-            feedback.innerHTML = '✅ Results saved successfully as Draft. You can publish them later.';
+            // 3. Audit log (optional)
+            try {
+                await supabase.from('audit_log').insert([{
+                    actor_id: window.currentAdminId,
+                    action: 'create_session',
+                    entity_type: 'result_session',
+                    entity_id: sessionId,
+                    details: { course_count: courses.length, session, semester, level }
+                }]);
+            } catch (e) {
+                console.warn('Audit log failed:', e);
+            }
+
+            feedback.innerHTML = '✅ Results submitted for verification. They will be visible to students once approved.';
             feedback.style.color = '#16a34a';
+
+            // Optional: clear form
+            courseRowsContainer.innerHTML = '';
+            addCourseRow();
+
         } catch (err) {
+            console.error(err);
             feedback.innerHTML = '❌ Error: ' + err.message;
             feedback.style.color = '#b91c1c';
-            console.error(err);
         }
     });
+
 });

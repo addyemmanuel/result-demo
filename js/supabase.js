@@ -1,34 +1,42 @@
 // =============================================
-// SUPABASE.JS – Client Initialisation
+// SUPABASE.JS – Reads config, initialises client
 // =============================================
 
-const USE_MOCK = true; // Set to false to use real Supabase
-
-const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
-
-let client;
-
-if (USE_MOCK) {
-    if (typeof window.mockSupabase !== 'undefined') {
-        client = window.mockSupabase;
-        console.log('🔧 Using MOCK Supabase client');
-    } else {
-        console.error('❌ mockSupabase not defined! Ensure mock-supabase.js is loaded first.');
-        client = {
-            from: () => { throw new Error('Mock client not available'); },
-            auth: { getSession: () => Promise.reject('Mock auth not available') }
-        };
+(function () {
+    const cfg = window.__APP_CONFIG;
+    if (!cfg) {
+        console.error('❌ config.js is missing. Copy config.example.js → config.js');
+        window.appSupabase = null;
+        return;
     }
-} else {
-    if (typeof window.supabase !== 'undefined' && window.supabase.createClient) {
-        client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        console.log('🔗 Using REAL Supabase client');
-    } else {
-        console.error('❌ Supabase library not loaded!');
-        client = null;
-    }
-}
 
-// Assign to global for all scripts to use
-window.appSupabase = client;
+    if (cfg.USE_MOCK) {
+        if (typeof window.mockSupabase !== 'undefined') {
+            window.appSupabase = window.mockSupabase;
+            console.log('🔧 Using MOCK Supabase client');
+        } else {
+            console.error('❌ mockSupabase not defined.');
+            window.appSupabase = null;
+        }
+        return;
+    }
+
+    if (typeof window.supabase === 'undefined' || !window.supabase.createClient) {
+        console.error('❌ Supabase library not loaded. Add the CDN script tag.');
+        window.appSupabase = null;
+        return;
+    }
+
+    window.appSupabase = window.supabase.createClient(
+        cfg.SUPABASE_URL,
+        cfg.SUPABASE_ANON_KEY,
+        {
+            auth: {
+                persistSession: true,
+                autoRefreshToken: true,
+                detectSessionInUrl: true
+            }
+        }
+    );
+    console.log('🔗 Real Supabase client ready');
+})();

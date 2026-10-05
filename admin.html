@@ -11,28 +11,41 @@
 </head>
 <body>
     <div class="admin-body">
-        <!-- SIDEBAR (same as before) -->
+
+        <!-- ==================== SIDEBAR ==================== -->
         <aside class="admin-sidebar" id="sidebar">
             <div class="sidebar-brand">
                 <img src="assets/images/logo-placeholder.svg" alt="Logo" width="36" height="36" />
                 <span>CS Admin</span>
             </div>
+
             <nav class="sidebar-nav">
                 <ul>
                     <li><a href="#" class="active" data-section="dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
                     <li><a href="#" data-section="students"><i class="fas fa-users"></i> Students</a></li>
-                    <li><a href="#" data-section="add-student"><i class="fas fa-user-plus"></i> Add Student</a></li>
-                    <li><a href="#" data-section="results"><i class="fas fa-file-alt"></i> Results</a></li>
+                    <li id="nav-add-student"><a href="#" data-section="add-student"><i class="fas fa-user-plus"></i> Add Student</a></li>
+                    <li><a href="#" data-section="results"><i class="fas fa-file-alt"></i> Result Entry</a></li>
+                    <li id="nav-verification">
+                        <a href="#" data-section="verification">
+                            <i class="fas fa-clipboard-check"></i> Verification
+                            <span id="pending-badge" style="margin-left:auto;background:#ef4444;color:#fff;font-size:0.7rem;padding:2px 8px;border-radius:20px;display:none;">0</span>
+                        </a>
+                    </li>
+                    <li id="nav-users">
+                        <a href="#" data-section="users">
+                            <i class="fas fa-users-cog"></i> User Management
+                        </a>
+                    </li>
                 </ul>
             </nav>
+
             <div class="sidebar-footer">
                 <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </div>
         </aside>
 
-        <!-- MAIN CONTENT -->
+        <!-- ==================== MAIN ==================== -->
         <main class="admin-main">
-            <!-- Header -->
             <div class="admin-header">
                 <div style="display:flex; align-items:center; gap:16px;">
                     <button id="sidebar-toggle" style="background:none;border:none;font-size:1.5rem;color:var(--text-secondary);cursor:pointer;display:none;">
@@ -42,14 +55,14 @@
                 </div>
                 <div class="admin-actions">
                     <span style="color:var(--text-secondary);font-size:0.9rem;">
-                        <i class="fas fa-user-circle"></i> Admin
+                        <i class="fas fa-user-circle"></i> Loading...
                     </span>
                 </div>
             </div>
 
-            <!-- DYNAMIC CONTENT -->
             <div id="admin-content">
-                <!-- DASHBOARD -->
+
+                <!-- ============ DASHBOARD ============ -->
                 <div id="section-dashboard">
                     <div class="dash-cards" id="dash-cards"></div>
                     <div style="background:#fff;border-radius:var(--admin-radius);padding:20px;border:1px solid var(--border-color);">
@@ -58,21 +71,25 @@
                     </div>
                 </div>
 
-                <!-- STUDENTS LIST -->
+                <!-- ============ STUDENTS LIST ============ -->
                 <div id="section-students" style="display:none;">
                     <div style="display:flex;flex-wrap:wrap;gap:16px;margin-bottom:20px;align-items:center;">
-                        <input type="text" id="student-search" placeholder="Search by name or UID..." style="flex:1;min-width:180px;padding:10px 16px;border:1px solid var(--border-color);border-radius:var(--radius-sm);" />
-                        <select id="student-level-filter" style="padding:10px 16px;border:1px solid var(--border-color);border-radius:var(--radius-sm);">
+                        <input type="text" id="student-search" placeholder="Search by name or UID..."
+                            style="flex:1;min-width:180px;padding:10px 16px;border:1px solid var(--border-color);border-radius:var(--radius-sm);" />
+                        <select id="student-level-filter"
+                            style="padding:10px 16px;border:1px solid var(--border-color);border-radius:var(--radius-sm);">
                             <option value="">All Levels</option>
                             <option value="ND I">ND I</option>
                             <option value="ND II">ND II</option>
                             <option value="HND I">HND I</option>
                             <option value="HND II">HND II</option>
                         </select>
-                        <button class="btn-primary btn-sm" id="refresh-students"><i class="fas fa-sync"></i> Refresh</button>
+                        <button class="btn-primary btn-sm" id="refresh-students">
+                            <i class="fas fa-sync"></i> Refresh
+                        </button>
                     </div>
                     <div class="admin-table-wrap">
-                        <table class="admin-table" id="students-table">
+                        <table class="admin-table">
                             <thead>
                                 <tr>
                                     <th>UID</th>
@@ -90,12 +107,14 @@
                     </div>
                 </div>
 
-                <!-- ADD STUDENT - CENTERED -->
+                <!-- ============ ADD STUDENT ============ -->
                 <div id="section-add-student" style="display:none;">
                     <div style="display:flex;justify-content:center;padding:20px 0;">
                         <div style="background:#fff;border-radius:var(--admin-radius);border:1px solid var(--border-color);padding:36px 32px;max-width:560px;width:100%;box-shadow:var(--shadow-md);">
                             <h2 style="margin-bottom:8px;font-weight:600;">Add New Student</h2>
-                            <p style="color:var(--text-secondary);margin-bottom:24px;font-size:0.95rem;">Fill in the details to create a new student record</p>
+                            <p style="color:var(--text-secondary);margin-bottom:24px;font-size:0.95rem;">
+                                Fill in the details to create a new student record
+                            </p>
                             <form id="add-student-form">
                                 <div class="form-group">
                                     <label><i class="fas fa-user"></i> Full Name</label>
@@ -125,7 +144,8 @@
                             <div id="add-student-result" style="margin-top:20px;display:none;background:var(--bg-light);padding:16px;border-radius:var(--radius-sm);border-left:4px solid var(--primary);">
                                 <strong>✅ Student Created Successfully</strong><br />
                                 <span id="new-uid-display" style="font-weight:600;font-size:1.2rem;color:var(--primary);"></span>
-                                <button id="copy-uid-btn" class="btn-sm" style="margin-left:12px;background:transparent;border:1px solid var(--border-color);border-radius:6px;padding:4px 12px;cursor:pointer;">
+                                <button id="copy-uid-btn" class="btn-sm"
+                                    style="margin-left:12px;background:transparent;border:1px solid var(--border-color);border-radius:6px;padding:4px 12px;cursor:pointer;">
                                     <i class="fas fa-copy"></i> Copy
                                 </button>
                             </div>
@@ -133,32 +153,44 @@
                     </div>
                 </div>
 
-                <!-- RESULTS ENTRY -->
+                <!-- ============ RESULT ENTRY ============ -->
                 <div id="section-results" style="display:none;">
                     <div style="background:#fff;border-radius:var(--admin-radius);border:1px solid var(--border-color);padding:28px;">
                         <h2 style="margin-bottom:16px;">Result Entry</h2>
+                        <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:16px;">
+                            Enter the student's UID, then add courses and scores. Results will be submitted for verification.
+                        </p>
+
                         <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
-                            <input type="text" id="result-student-uid" placeholder="Enter Student UID" style="flex:1;min-width:200px;padding:10px 16px;border:1px solid var(--border-color);border-radius:var(--radius-sm);" />
-                            <button class="btn-primary btn-sm" id="result-find-student"><i class="fas fa-search"></i> Load Student</button>
+                            <input type="text" id="result-student-uid" placeholder="Enter Student UID"
+                                style="flex:1;min-width:200px;padding:10px 16px;border:1px solid var(--border-color);border-radius:var(--radius-sm);" />
+                            <button class="btn-primary btn-sm" id="result-find-student">
+                                <i class="fas fa-search"></i> Load Student
+                            </button>
                         </div>
-                        <div id="result-student-info" style="background:var(--bg-light);padding:12px 16px;border-radius:var(--radius-sm);margin-bottom:20px;display:none;">
-                            <span id="result-student-name" style="font-weight:600;"></span> &bull; 
-                            <span id="result-student-uid-display"></span> &bull; 
+
+                        <div id="result-student-info"
+                            style="background:var(--bg-light);padding:12px 16px;border-radius:var(--radius-sm);margin-bottom:20px;display:none;">
+                            <span id="result-student-name" style="font-weight:600;"></span> &bull;
+                            <span id="result-student-uid-display"></span> &bull;
                             <span id="result-student-level"></span>
                         </div>
 
                         <div style="display:flex;flex-wrap:wrap;gap:16px;margin-bottom:20px;">
                             <div style="flex:1;min-width:150px;">
                                 <label style="font-weight:500;font-size:0.85rem;">Academic Year</label>
-                                <input type="number" id="result-year" value="2026" style="width:100%;padding:8px 12px;border:1px solid var(--border-color);border-radius:var(--radius-sm);" />
+                                <input type="number" id="result-year" value="2026"
+                                    style="width:100%;padding:8px 12px;border:1px solid var(--border-color);border-radius:var(--radius-sm);" />
                             </div>
                             <div style="flex:1;min-width:150px;">
                                 <label style="font-weight:500;font-size:0.85rem;">Academic Session</label>
-                                <input type="text" id="result-session" value="2025/2026" style="width:100%;padding:8px 12px;border:1px solid var(--border-color);border-radius:var(--radius-sm);" />
+                                <input type="text" id="result-session" value="2025/2026"
+                                    style="width:100%;padding:8px 12px;border:1px solid var(--border-color);border-radius:var(--radius-sm);" />
                             </div>
                             <div style="flex:1;min-width:150px;">
                                 <label style="font-weight:500;font-size:0.85rem;">Level</label>
-                                <select id="result-level" style="width:100%;padding:8px 12px;border:1px solid var(--border-color);border-radius:var(--radius-sm);">
+                                <select id="result-level"
+                                    style="width:100%;padding:8px 12px;border:1px solid var(--border-color);border-radius:var(--radius-sm);">
                                     <option value="ND I">ND I</option>
                                     <option value="ND II">ND II</option>
                                     <option value="HND I">HND I</option>
@@ -167,7 +199,8 @@
                             </div>
                             <div style="flex:1;min-width:150px;">
                                 <label style="font-weight:500;font-size:0.85rem;">Semester</label>
-                                <select id="result-semester" style="width:100%;padding:8px 12px;border:1px solid var(--border-color);border-radius:var(--radius-sm);">
+                                <select id="result-semester"
+                                    style="width:100%;padding:8px 12px;border:1px solid var(--border-color);border-radius:var(--radius-sm);">
                                     <option value="First Semester">First Semester</option>
                                     <option value="Second Semester">Second Semester</option>
                                 </select>
@@ -177,18 +210,98 @@
                         <div style="margin-bottom:16px;">
                             <h4 style="margin-bottom:8px;">Courses</h4>
                             <div id="course-rows"></div>
-                            <button class="btn-outline btn-sm" id="add-course-row"><i class="fas fa-plus"></i> Add Course</button>
+                            <button class="btn-outline btn-sm" id="add-course-row">
+                                <i class="fas fa-plus"></i> Add Course
+                            </button>
                         </div>
 
-                        <button class="btn-primary" id="save-result-btn"><i class="fas fa-save"></i> Save Results</button>
+                        <button class="btn-primary" id="save-result-btn">
+                            <i class="fas fa-paper-plane"></i> Submit for Verification
+                        </button>
                         <div id="result-feedback" style="margin-top:12px;"></div>
                     </div>
                 </div>
+
+                <!-- ============ VERIFICATION QUEUE ============ -->
+                <div id="section-verification" style="display:none;">
+                    <div style="margin-bottom:16px;">
+                        <p style="color:var(--text-secondary);">
+                            Results submitted by lecturers appear here. Review and publish to make them visible to students.
+                        </p>
+                    </div>
+
+                    <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:20px;align-items:center;">
+                        <select id="verification-status-filter"
+                            style="padding:10px 16px;border:1px solid var(--border-color);border-radius:var(--radius-sm);">
+                            <option value="Pending">Pending</option>
+                            <option value="Draft">Draft</option>
+                            <option value="Published">Published</option>
+                            <option value="Archived">Archived</option>
+                            <option value="">All</option>
+                        </select>
+                        <button class="btn-primary btn-sm" id="refresh-verification">
+                            <i class="fas fa-sync"></i> Refresh
+                        </button>
+                    </div>
+
+                    <div class="admin-table-wrap">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>UID</th>
+                                    <th>Session</th>
+                                    <th>Level</th>
+                                    <th>Status</th>
+                                    <th>Submitted</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="verification-tbody">
+                                <tr><td colspan="7" style="text-align:center;padding:30px;">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ============ USER MANAGEMENT ============ -->
+                <div id="section-users" style="display:none;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+                        <div>
+                            <h3 style="margin-bottom:4px;">Administrator Accounts</h3>
+                            <p style="color:var(--text-secondary);font-size:0.9rem;">
+                                Create lecturer accounts that can upload results for verification.
+                            </p>
+                        </div>
+                        <button class="btn-primary btn-sm" id="open-create-user-btn">
+                            <i class="fas fa-user-plus"></i> Create Admin
+                        </button>
+                    </div>
+
+                    <div class="admin-table-wrap">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-tbody">
+                                <tr><td colspan="6" style="text-align:center;padding:30px;">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
             </div>
         </main>
     </div>
 
-    <!-- MODAL -->
+    <!-- ==================== MODAL ==================== -->
     <div class="modal-overlay" id="confirm-modal">
         <div class="modal-box">
             <h2>Confirm Delete</h2>
@@ -200,7 +313,9 @@
         </div>
     </div>
 
+    <!-- ==================== SCRIPTS ==================== -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
     <script src="js/mock-supabase.js"></script>
     <script src="js/supabase.js"></script>
     <script src="js/utils.js"></script>
